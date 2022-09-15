@@ -1,4 +1,3 @@
-import { error } from '@sveltejs/kit';
 import redis from 'redis'
 
 /** @type {import('./$types').RequestHandler} */
