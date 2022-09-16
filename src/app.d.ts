@@ -6,7 +6,11 @@ declare namespace App {
 		userid: string;
 	}
 
-	// interface PageData {}
+	interface PageData {
+		collectionId: string;
+		bears: string;
+		workingCards: {}[]
+	}
 
 	// interface PageError {}
 
