@@ -54,17 +54,18 @@ model VerificationToken {
 }
 
 model Collection {
-  id     String   @id @default(cuid())
+  id     String @id @default(cuid())
   userId String
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cards  String[]
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards  Json[] @default([])
   decks  Deck[]
-  name   String   @default("New Collection")
+  name   String @default("New Collection")
 }
 
 model Deck {
   id           String     @id @default(cuid())
   collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String     @unique
-  cards        String[]
+  cards        Json[]     @default([])
+  // id: name: foil: nonfoil: etched: glossy:
 }
