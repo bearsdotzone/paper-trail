@@ -1,6 +1,6 @@
 <script>
 	import Result from './Result.svelte';
-	var searchField = '';
+	var searchField = '@set:dmu';
 	var results = [];
 	var resultType;
 
@@ -25,7 +25,7 @@
 			<p>no results</p>
 		{:else}
 			{#each query as iCollection}
-				<Result cardData={iCollection} {resultType} />
+				<Result cardData={iCollection} />
 			{/each}
 		{/if}
 	{/await}
@@ -36,5 +36,6 @@
 		width: 30vw;
 		text-align: center;
 		background-color: bisque;
+		flex-shrink: 0;
 	}
 </style>
