@@ -26,7 +26,7 @@
 
 	let response = getCollections();
 	onMount(async () => {
-		$activeCollection = (await getCollections())[0]['id'];
+		$activeCollection = (await response)[0]['id'];
 		$activeCards = await getCards($activeCollection);
 	});
 </script>
@@ -42,13 +42,6 @@
 					<p>{card['name']} x{card['nonfoil']}</p>
 				{/each}
 			</Tab>
-			<Tab
-				><button
-					on:click|preventDefault={() => {
-						response = getCollections();
-					}}>refresh</button
-				></Tab
-			>
 		{/each}
 	{/await}
 </Tabs>
