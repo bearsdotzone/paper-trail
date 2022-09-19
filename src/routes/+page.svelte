@@ -2,18 +2,15 @@
 	import { onMount } from 'svelte';
 	import Tabs from '$lib/tabs/Tabs.svelte';
 	import Tab from '$lib/tabs/Tab.svelte';
+	import { activeCards, activeCollection } from '$lib/stores';
 </script>
 
 <script>
-	/** @type {import('./$types').PageData} */
-	export let data;
 	const getCollections = async () => {
 		const req = await fetch(
 			'http://localhost:5173/api/collections/readCollections?email=abney42%40gmail.com'
 		);
 		const res = await req.json();
-
-		data.collectionId = res[0]['id'];
 
 		return res;
 	};
@@ -23,14 +20,15 @@
 			'http://localhost:5173/api/collections/readCards?collectionId=' + id
 		);
 		const res = await req.json();
-		data.workingCards = res;
+
 		return res;
 	};
 
 	let response = getCollections();
-	// onMount(async () => {
-	// 	sessionStorage.setItem('collectionId', (await response)[0]['id']);
-	// });
+	onMount(async () => {
+		$activeCollection = (await getCollections())[0]['id'];
+		$activeCards = await getCards($activeCollection);
+	});
 </script>
 
 <Tabs>
@@ -40,24 +38,14 @@
 		{#each query as iCollection}
 			<Tab
 				>{iCollection['name']}
-				{#await getCards(iCollection['id']) then results}
-					{#each results as card}
-						<p>{card['name']} x{card['nonfoil']}</p>
-					{/each}
-				{/await}
-				{#await getCards(iCollection['id']) then results}
-					{#each data.workingCards as card}
-						<p>live: {card['name']}</p>
-					{/each}
-				{/await}
+				{#each $activeCards as card}
+					<p>{card['name']} x{card['nonfoil']}</p>
+				{/each}
 			</Tab>
 			<Tab
 				><button
 					on:click|preventDefault={() => {
 						response = getCollections();
-						{
-							console.log(data.collectionId);
-						}
 					}}>refresh</button
 				></Tab
 			>

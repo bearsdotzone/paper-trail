@@ -1,19 +1,41 @@
-import { error } from '@sveltejs/kit';
-import prisma from '../../../../lib/db'
+import { error, json } from '@sveltejs/kit';
+import prisma from '$lib/db'
+import { element } from 'svelte/internal';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
-    const cardToAdd = String(url.searchParams.get('cardId') ?? '');
-    const collectionToUpdate = String(url.searchParams.get('collectionId') ?? '')
+export async function PATCH({ url }) {
 
-    var currentCards = (await prisma.collection.findUnique({ where: { id: collectionToUpdate } }))['cards']
+    //ublock origin was causing some trouble with the api receiving both the 
+    // card Id and the collection Id, perhaps it's interpreting these as tracking
+    // tags? if so, how to resolve?
+    const cardToRemove: string = String(url.searchParams.get('cardId') ?? '');
+    const collectionToUpdate: string = String(url.searchParams.get('collectionId') ?? '')
 
-    const index = currentCards.indexOf(cardToAdd)
-    if (index != -1) {
-        currentCards = currentCards.slice(0, index - 1).concat(currentCards.slice(index + 1, 0))
+    const cardDataReq = await fetch('http://127.0.0.1:5173/api/cards/fromId?cardId=' + cardToRemove);
+    const cardDataRes = await cardDataReq.json()
+
+    if (cardToRemove == '' || collectionToUpdate == '') {
+        return new Response(null, { status: 204 })
     }
 
-    const foundCollections = await prisma.collection.update({ where: { id: collectionToUpdate }, data: { cards: currentCards } })
+    const currentCards = (await prisma.collection.findUnique({ where: { id: collectionToUpdate } }))['cards']
 
-    return new Response(JSON.stringify(foundCollections));
+    const indexInArray = currentCards.findIndex((element) => {
+        return (element['id'] == cardToRemove)
+    })
+
+    const cardExistsInArray = indexInArray != -1
+
+    if (cardExistsInArray) {
+        var toChange = currentCards[indexInArray]
+        toChange['nonfoil'] -= 1
+        currentCards[indexInArray] = toChange
+        if (toChange['nonfoil'] <= 0) {
+            currentCards.splice(indexInArray, 1)
+        }
+        const updateResult = await prisma.collection.update({ where: { id: collectionToUpdate }, data: { cards: currentCards } })
+        return new Response(JSON.stringify(updateResult), { status: 200 })
+    } else {
+        return new Response(null, { status: 204 })
+    }
 }

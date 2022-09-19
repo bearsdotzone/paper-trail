@@ -31,7 +31,7 @@ export async function PATCH({ url }) {
         toChange['nonfoil'] += 1
         currentCards[indexInArray] = toChange
         const updateResult = await prisma.collection.update({ where: { id: collectionToUpdate }, data: { cards: currentCards } })
-        return new Response(null, { status: 200 })
+        return new Response(JSON.stringify(updateResult), { status: 200 })
     } else {
         // Feels hacky, should probably make a Type for this.
         var toAdd = JSON.parse('{}');
@@ -44,6 +44,6 @@ export async function PATCH({ url }) {
 
         var newCards = currentCards.concat(toAdd)
         const updateResult = await prisma.collection.update({ where: { id: collectionToUpdate }, data: { cards: newCards } })
-        return new Response(null, { status: 200 })
+        return new Response(JSON.stringify(updateResult), { status: 200 })
     }
 }
