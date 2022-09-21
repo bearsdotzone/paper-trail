@@ -35,3 +35,12 @@ export const getCards = async (id) => {
 
 	return res;
 };
+
+export const getCollections = async (id?) => {
+	const req = await fetch(
+		'http://localhost:5173/api/collections/readCollections?email=abney42%40gmail.com'
+	);
+	const res = await req.json();
+
+	return res;
+};

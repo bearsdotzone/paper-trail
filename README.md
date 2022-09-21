@@ -6,4 +6,8 @@ Using Redis for lighting fast card queries.
 
 Using Postgres for user information and storage.
 
+Using TailwindCSS for styling and Skeleton for components.
+
 Card info comes from the scryfall api.
+
+![A rudimentary collection tracker, a sidebar to search and collections to manage.](media/wip-2022-09-21.png)
