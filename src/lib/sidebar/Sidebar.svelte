@@ -1,4 +1,5 @@
 <script>
+	import List from '$lib/cardComponents/List.svelte';
 	import Result from './Result.svelte';
 	var searchField = '@set:dmu';
 	var results = [];
@@ -19,7 +20,7 @@
 		<option>Image</option>
 	</select>
 </form>
-{#await results then query}
+<!-- {#await results then query}
 	{#if results.length == 0}
 		<p>no results</p>
 	{:else}
@@ -27,4 +28,15 @@
 			<Result cardData={iCollection} />
 		{/each}
 	{/if}
-{/await}
+{/await} -->
+<table>
+	{#await results then query}
+		{#if results.length == 0}
+			<p>no results</p>
+		{:else}
+			{#each query as iCollection}
+				<List cardData={iCollection} />
+			{/each}
+		{/if}
+	{/await}
+</table>

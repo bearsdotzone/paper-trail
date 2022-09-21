@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
 	import { activeCards, activeCollection } from '$lib/stores';
-	export let cardName;
-	export let cardCount;
-	export let cardId;
+	import { Button } from '@brainandbones/skeleton';
+
+	export let cardData: [] = [];
+	export let collectionData: [] = [];
+	$: cardId = cardData['id'] ?? collectionData['id'];
+	$: cardCount = collectionData['nonfoil'] ?? 0;
+	$: cardName =
+		cardData['name'] ?? cardData['printed_name'] ?? collectionData['name'];
 
 	async function removeCard() {
 		const params = new URLSearchParams({
@@ -41,26 +46,23 @@
 	}
 </script>
 
-<tr class="list">
-	<td>{cardName}</td>
-	<td>{cardCount}</td>
-	<td
-		><button
+<tr>
+	<td><div class="text-neutral-100">{cardName}</div></td>
+	<td>
+		<Button
+			background="bg-primary-300"
 			on:click={() => {
 				removeCard();
-			}}>-</button
-		></td
-	>
-	<td
-		><button
+			}}>-</Button>
+	</td>
+	{#if collectionData.length != 0}
+		<td><div class="text-center">{cardCount}</div></td>
+	{/if}
+	<td>
+		<Button
+			background="bg-accent-300"
 			on:click={() => {
 				addCard();
-			}}>+</button
-		></td
-	>
+			}}>+</Button>
+	</td>
 </tr>
-
-<style>
-	.list {
-	}
-</style>

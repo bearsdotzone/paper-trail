@@ -1,15 +1,16 @@
-import prisma from '../../../../lib/db'
+import prisma from '../../../../lib/db';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
-  const email = String(url.searchParams.get('email') ?? 'na');
+	const email = String(url.searchParams.get('email') ?? 'na');
 
-  const foundCollections = await prisma.collection.findMany({
-    where: { user: { email: email } }, select: {
-      id: true,
-      name: true
-    }
-  })
+	const foundCollections = await prisma.collection.findMany({
+		where: { user: { email: email } },
+		select: {
+			id: true,
+			name: true
+		}
+	});
 
-  return new Response(JSON.stringify(foundCollections));
+	return new Response(JSON.stringify(foundCollections));
 }

@@ -3,9 +3,9 @@
 	import { activeCards, activeCollection } from '$lib/stores';
 </script>
 
-<script>
+<script lang="ts">
 	import List from '$lib/cardComponents/List.svelte';
-	import { TabGroup, Tab } from '@brainandbones/skeleton';
+	import { TabGroup, Tab, DataTable } from '@brainandbones/skeleton';
 	import { getCards } from '$lib/helpers';
 
 	const getCollections = async () => {
@@ -23,6 +23,8 @@
 		}
 	});
 
+	const headings = ['Name', 'nonfoil'];
+
 	let response = getCollections();
 	onMount(async () => {
 		$activeCollection = (await response)[0]['id'];
@@ -33,7 +35,7 @@
 	});
 </script>
 
-<div class="min-h-screen bg-surface-800 text-neutral-100">
+<div class="min-h-screen bg-surface-800 text-neutral-100 p-1">
 	{#await response}
 		Loading...
 	{:then query}
@@ -41,8 +43,7 @@
 			selected={activeCollection}
 			justify="justify-start"
 			highlight="border-accent-500"
-			color="text-accent-500"
-		>
+			color="text-accent-500">
 			{#each query as iCollection}
 				<Tab value={iCollection['id']}>{iCollection['name']}</Tab>
 			{/each}
@@ -50,13 +51,17 @@
 		{#each query as iCollection}
 			{#if $activeCollection === iCollection['id'] && $activeCards != null}
 				{#await $activeCards then card}
-					{#each card as card}
-						<List
-							cardId={card['id']}
-							cardName={card['name']}
-							cardCount={card['nonfoil']}
-						/>
-					{/each}
+					<table>
+						<thead>
+							<tr
+								><td><div class="text-neutral-100">Name</div></td><td /><td
+									><div class="text-neutral-100">Count</div></td
+								></tr>
+						</thead>
+						{#each card as card}
+							<List collectionData={card} />
+						{/each}
+					</table>
 				{/await}
 			{/if}
 		{/each}
