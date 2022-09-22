@@ -10,4 +10,4 @@ Using TailwindCSS for styling and Skeleton for components.
 
 Card info comes from the scryfall api.
 
-![A rudimentary collection tracker, a sidebar to search and collections to manage.](media/wip-2022-09-21.png)
+![A rudimentary collection tracker, a sidebar to search and collections to manage.](media/latest.png)
