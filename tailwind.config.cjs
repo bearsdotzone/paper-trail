@@ -8,7 +8,9 @@ const config = {
 		extend: {}
 	},
 
-	plugins: [require('@brainandbones/skeleton/tailwind.cjs')]
+	plugins: [require('@brainandbones/skeleton/tailwind.cjs')],
+
+	darkMode: 'class'
 };
 
 module.exports = config;
