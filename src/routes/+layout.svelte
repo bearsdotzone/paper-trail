@@ -6,12 +6,12 @@
 	import { LightSwitch } from '@brainandbones/skeleton';
 </script>
 
-<main>
+<main class="bg-surface-800">
 	<AppShell>
 		<svelte:fragment slot="header"
 			><div class="text-xl text-center bg-primary-500 p-1">
 				Paper Trail
-				<!-- <LightSwitch /> -->
+				<LightSwitch />
 			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="sidebarLeft"
@@ -21,7 +21,7 @@
 		<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
 		<!-- <svelte:fragment slot="pageHeader">Page Header</svelte:fragment> -->
 		<svelte:fragment slot="pageFooter"
-			><div class="text-lg sticky min-w-full text-center bg-primary-300 p-1">
+			><div class="text-lg bottom-0 sticky text-center bg-primary-300 p-1">
 				Bears Loves Alexandra
 			</div>
 		</svelte:fragment>
