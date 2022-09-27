@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
   redis:
-    image: redis-stack
+    image: redis/redis-stack
     restart: unless-stopped
     container_name: redis
     ports:
