@@ -6,9 +6,15 @@ declare namespace App {
 		userid: string;
 	}
 
-	interface PageData {}
+	interface PageData { }
 
 	// interface PageError {}
 
 	// interface Platform {}
+}
+
+import type { User } from "@prisma/client";
+
+declare namespace Lucia {
+	interface UserData extends Omit<User, "id" | "identifier_token" | "hashed_password"> { }
 }

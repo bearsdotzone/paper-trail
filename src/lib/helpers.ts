@@ -36,11 +36,20 @@ export const getCards = async (id) => {
 	return res;
 };
 
-export const getCollections = async (id?) => {
-	const req = await fetch(
-		'http://localhost:5173/api/collections/readCollections?email=abney42%40gmail.com'
-	);
-	const res = await req.json();
+export const getCollections = async (access_token) => {
+	const reqHead = new Headers({ Authorization: `Bearer ` + access_token })
 
-	return res;
+	const request = new Request('http://localhost:5173/api/collections/readCollections', { headers: reqHead })
+
+	const req = await fetch(request);
+
+	if (req.status == 200) {
+		const res = await req.json();
+		return res;
+	}
+	else {
+		// likely unauthorized
+		return {}
+	}
+
 };

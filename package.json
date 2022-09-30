@@ -36,8 +36,10 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
+		"@lucia-sveltekit/adapter-prisma": "^0.3.3",
 		"@prisma/client": "^4.3.1",
 		"@redis/search": "^1.1.0",
+		"lucia-sveltekit": "^0.9.1",
 		"prisma": "^4.3.1",
 		"redis": "^4.3.1"
 	}

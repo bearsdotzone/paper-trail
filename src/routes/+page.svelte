@@ -16,7 +16,14 @@
 		}
 	});
 
-	let response = getCollections();
+	import { getSession } from 'lucia-sveltekit/client';
+
+	let session = getSession();
+
+	let response = getCollections(
+		$session != null ? $session.access_token : null
+	);
+
 	onMount(async () => {
 		$activeCollection = (await response)[0]['id'];
 	});
@@ -27,21 +34,29 @@
 </script>
 
 <div class="min-h-80 bg-surface-800 text-neutral-100 p-1">
-	{#await response}
-		Loading...
-	{:then query}
-		<TabGroup
-			selected={activeCollection}
-			justify="justify-start"
-			highlight="border-accent-500"
-			color="text-accent-500">
-			{#each query as iCollection}
-				<Tab value={iCollection['id']}>{iCollection['name']}</Tab>
-			{/each}
-		</TabGroup>
-		{#key activeCards}
-			<ChecklistCardTable name count cards={$activeCards} />
-		{/key}
+	{#await session}
+		<p>Loading...</p>
+	{:then}
+		{#if $session}
+			{#await response then query}
+				{#key response}
+					<TabGroup
+						selected={activeCollection}
+						justify="justify-start"
+						highlight="border-accent-500"
+						color="text-accent-500">
+						{#each query as iCollection}
+							<Tab value={iCollection['id']}>{iCollection['name']}</Tab>
+						{/each}
+					</TabGroup>
+					{#key activeCards}
+						<ChecklistCardTable name count cards={$activeCards} />
+					{/key}
+				{/key}
+			{/await}
+		{:else}
+			<p>login to continue</p>
+		{/if}
 	{/await}
 </div>
 
