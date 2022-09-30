@@ -1,3 +1,4 @@
 {
-    "prettier.configPath": ".prettierrc"
+    "prettier.configPath": ".prettierrc",
+    "workbench.editor.labelFormat": "short"
 }
