@@ -10,13 +10,21 @@ export async function GET({ url }) {
 	const query_results = await client.ft.search(
 		'idx:cards',
 		query + '@set_type:expansion',
-		{ VERBATIM: true }
+		{
+			VERBATIM: true,
+			LIMIT: {
+				from: 0,
+				size: 3000 // stopgap, need proper pagination
+			}
+		}
 	);
 
 	await client.quit();
 	if (query_results.total == 0) {
 		return new Response(null, { status: 204 });
 	}
+
+	return new Response(JSON.stringify(query_results), { status: 200 });
 
 	//error - [ErrorReply: LOADING Redis is loading the dataset in memory] { page: '/api/search'}
 

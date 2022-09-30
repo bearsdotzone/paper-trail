@@ -40,10 +40,12 @@
 			<div class="h-10 bg-primary-500 text-xl text-center p-1">
 				<div class="float-left">
 					{#if $session}
-						<Button on:click={signOutUser} size="none">Sign Out</Button>
+						<Button on:click={signOutUser} size="none" class="p-1"
+							>Sign Out</Button>
 					{:else}
-						<Button href={githubLink} class="github" size="none"
-							>Login with Github</Button>
+						<Button href={githubLink} class="github p-1" size="none">
+							Login with Github
+						</Button>
 					{/if}
 				</div>
 				Paper Trail

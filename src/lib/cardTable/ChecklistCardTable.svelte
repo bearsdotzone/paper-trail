@@ -77,8 +77,37 @@
 	</select>
 
 	<span class="text-neutral-100 text-center">
-		{#each Array(pageCount) as _, index (index)}
-			<span on:click={() => (pageIndex = index)}>{index + 1}{' '}</span>
-		{/each}
+		<!-- Display all pages without pagination -->
+		{#if pageCount <= 10}
+			{#each Array(pageCount) as _, index (index)}
+				<span on:click={() => (pageIndex = index)}>{index + 1}{' '}</span>
+			{/each}
+			<!-- Display first pages ... last -->
+		{:else if pageIndex < 2}
+			{#each Array(5) as _, index}
+				<span on:click={() => (pageIndex = index)}>{index + 1}{' '}</span>
+			{/each}
+			{'...'}
+			<span on:click={() => (pageIndex = pageCount - 1)}>{pageCount}{' '}</span>
+			<!-- First ... last pages -->
+		{:else if pageCount - pageIndex < 2}
+			<span on:click={() => (pageIndex = 0)}>{0 + 1}{' '}</span>
+			{'...'}
+			{#each Array(5) as _, index}
+				<span on:click={() => (pageIndex = pageCount - (5 - index))}
+					>{pageCount - (5 - index) + 1}{' '}</span>
+			{/each}
+			<!-- first ... pages ... last -->
+		{:else}
+			<span on:click={() => (pageIndex = 0)}>{0 + 1}{' '}</span>
+			{'...'}
+			{#each Array(5) as _, index (index)}
+				{@const actualIndex = pageIndex - 2 + index}
+				<span on:click={() => (pageIndex = actualIndex)}
+					>{actualIndex + 1}{' '}</span>
+			{/each}
+			{'...'}
+			<span on:click={() => (pageIndex = pageCount - 1)}>{pageCount}{' '}</span>
+		{/if}
 	</span>
 </div>
