@@ -8,6 +8,5 @@ export async function GET({ url }) {
 	const foundCollections = await prisma.collection.findUnique({
 		where: { id: collectionId }
 	});
-	// console.log(foundCollections)
 	return new Response(JSON.stringify(foundCollections['cards']));
 }

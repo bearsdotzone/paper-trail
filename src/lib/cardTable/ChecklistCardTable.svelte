@@ -9,6 +9,8 @@
 	export let count = false;
 	export let set = false;
 
+	let columns = ['name', 'nonfoil', 'set'];
+
 	let sortKey = 'name';
 	let sortReversed = false;
 
