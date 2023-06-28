@@ -1,15 +1,15 @@
 <script lang="ts">
 	import '../app.postcss';
-	import '@brainandbones/skeleton/styles/themes/theme-vintage.css';
+	import '@brainandbones/skeleton/themes/theme-vintage.css';
 	import { AppShell } from '@brainandbones/skeleton';
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
 	import { LightSwitch } from '@brainandbones/skeleton';
 
-	import { handleSilentRefresh } from 'lucia-sveltekit/client';
+	// import { handleSilentRefresh } from 'lucia-sveltekit/client';
 	import { dev } from '$app/environment';
 	import { PUBLIC_GITHUB_ID } from '$env/static/public';
 
-	handleSilentRefresh();
+	// handleSilentRefresh();
 
 	const githubClientId = dev ? PUBLIC_GITHUB_ID : 'PROD_GITHUB_CLIENT_ID';
 	const githubLink = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&scope=user:email`;
@@ -23,14 +23,15 @@
 			// handle error
 		}
 	};
-	import { getSession } from 'lucia-sveltekit/client';
+	import { getUser } from 'lucia-sveltekit/client';
 	import { onMount } from 'svelte';
-	import { Button } from '@brainandbones/skeleton';
 
 	let session;
 
+	let files: FileList;
+
 	onMount(() => {
-		session = getSession();
+		session = getUser();
 	});
 </script>
 
@@ -39,14 +40,14 @@
 		<svelte:fragment slot="header">
 			<div class="h-10 bg-primary-500 text-xl text-center p-1">
 				<div class="float-left">
-					{#if $session}
-						<Button on:click={signOutUser} size="none" class="p-1"
-							>Sign Out</Button>
+					<!-- {#if $session}
+						<button on:click={signOutUser} class="p-1"
+							>Sign Out</button>
 					{:else}
-						<Button href={githubLink} class="github p-1" size="none">
+						<button on:click={() => alert('clicked')} class="github p-1" >
 							Login with Github
-						</Button>
-					{/if}
+						</button>
+					{/if} -->
 				</div>
 				Paper Trail
 				<div class="float-right">
