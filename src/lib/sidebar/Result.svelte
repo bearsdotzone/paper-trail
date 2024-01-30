@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { activeCards, activeCollection } from '$lib/stores';
-	import { Button } from '@brainandbones/skeleton';
 	import { onMount } from 'svelte';
 
 	export let cardData;
 	export let index;
 
 	// export let resultType = 'Text';
+
+	let files: FileList;
 
 	async function removeCard() {
 		const params = new URLSearchParams({
@@ -52,10 +53,10 @@
 	<td>
 		<div class="text-neutral-100">{cardData['name']}</div>
 	</td><td class="items-center"
-		><Button background="bg-primary-200" size="sm" on:click={() => removeCard()}
-			>-</Button>
+		><button  on:click={() => removeCard()} 
+			>-</button>
 	</td><td class="items-center">
-		<Button background="bg-accent-200" size="sm" on:click={() => addCard()}
-			>+</Button>
+		<button   on:click={() => addCard()} 
+			>+</button> 
 	</td>
 </tr>

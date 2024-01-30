@@ -16,12 +16,12 @@
 		}
 	});
 
-	import { getSession } from 'lucia-sveltekit/client';
+	import { getUser } from 'lucia-sveltekit/client';
 
-	let session = getSession();
+	let session = getUser();
 
 	let response = getCollections(
-		$session != null ? $session.access_token : null
+		session != null ? session.access_token : null
 	);
 
 	onMount(async () => {
@@ -37,7 +37,7 @@
 	{#await session}
 		<p>Loading...</p>
 	{:then}
-		{#if $session}
+		{#if session}
 			{#await response then query}
 				{#key response}
 					<TabGroup

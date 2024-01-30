@@ -8,7 +8,7 @@ const config = {
 		extend: {}
 	},
 
-	plugins: [require('@brainandbones/skeleton/tailwind.cjs')],
+	plugins: [require('@brainandbones/skeleton/tailwind/theme.cjs')],
 
 	darkMode: 'class'
 };

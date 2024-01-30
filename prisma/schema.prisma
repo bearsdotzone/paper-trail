@@ -7,34 +7,47 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model RefreshToken {
-  id            Int    @id @unique @default(autoincrement())
-  refresh_token String @unique
-  user          User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
-  user_id       String
+model AuthSession {
+  id             String   @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("refresh_token")
+  @@map("auth_session")
 }
 
-model User {
-  id               String         @id @unique
-  identifier_token String         @unique
-  hashed_password  String?
-  RefreshToken     RefreshToken[]
-  collections      Collection[]
-  email            String         @unique
+model AuthUser {
+  id           String        @id @unique
+  auth_session AuthSession[]
+  auth_key     AuthKey[]
+  // here you can add custom fields for your user
+  // e.g. name, email, username, roles, etc.
+  Collection   Collection[]
 
-  @@map("user")
+  @@map("auth_user")
+}
+
+model AuthKey {
+  id              String   @id @unique
+  hashed_password String?
+  user_id         String
+  primary_key     Boolean
+  expires         BigInt?
+  auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("auth_key")
 }
 
 model Collection {
-  id     String @id @default(cuid())
+  id     String   @id @default(cuid())
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cards  Json[] @default([])
+  user   AuthUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards  Json[]   @default([])
   decks  Deck[]
-  name   String @default("New Collection")
+  name   String   @default("New Collection")
 }
 
 model Deck {

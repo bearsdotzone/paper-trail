@@ -1,13 +1,14 @@
-import lucia from "lucia-sveltekit";
-import prisma from "@lucia-sveltekit/adapter-prisma";
-import { dev } from "$app/environment";
+// lib/server/lucia.ts
+import lucia from "lucia-auth";
+import { sveltekit } from "lucia-auth/middleware";
+import prisma from "@lucia-auth/adapter-prisma";
 import { PrismaClient } from "@prisma/client";
-import { LUCIA_SECRET } from "$env/static/private";
-
-const client = new PrismaClient();
+import { dev } from "$app/environment";
 
 export const auth = lucia({
-    adapter: prisma(client),
-    secret: LUCIA_SECRET,
-    env: dev ? "DEV" : "PROD",
+	adapter: prisma(new PrismaClient()),
+	env: dev ? "DEV" : "PROD",
+	middleware: sveltekit()
 });
+
+export type Auth = typeof auth;
