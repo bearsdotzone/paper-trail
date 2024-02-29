@@ -63,7 +63,7 @@
 		<!-- <svelte:fragment slot="pageHeader">Page Header</svelte:fragment> -->
 		<svelte:fragment slot="pageFooter"
 			><div class="text-lg bottom-0 sticky text-center bg-primary-300 p-1">
-				Bears Loves Alexandra
+				test
 			</div>
 		</svelte:fragment>
 		<!-- Be sure to insert your route <slot> in the default position --->
