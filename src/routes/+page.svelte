@@ -18,7 +18,8 @@
 
 	import { getUser } from 'lucia-sveltekit/client';
 
-	let session = getUser();
+	// let session = getUser();
+	let session = null;
 
 	let response = getCollections(
 		session != null ? session.access_token : null
