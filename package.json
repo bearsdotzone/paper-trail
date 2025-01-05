@@ -21,6 +21,7 @@
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.32.0",
+    "nanoid": ">=5.0.9",
     "prettier": "^3.2.5",
     "prettier-plugin-svelte": "^3.2.2",
     "svelte": "^4.2.19",
